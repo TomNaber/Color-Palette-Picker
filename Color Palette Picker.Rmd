@@ -12,8 +12,6 @@ output:
     fig_height: 6
     fig_width: 10
     code_folding: hide
-  pdf_document: 
-    toc: true
 editor_options:
   markdown:
     wrap: 80 

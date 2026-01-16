@@ -17,8 +17,11 @@ editor_options:
   markdown:
     wrap: 80 
 ---
+
 # COLOR PICKER
+
 See this website for more https://colorbrewer2.org/
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(fig.width = 10,
                       fig.height = 6)
@@ -28,10 +31,13 @@ library(ggplot2)
 ```
 
 ## Colors for categorical data
+
 Use medium for regular data, light for individual data points next to means (with medium) and bold to highlight something.
 
 ### For single value/group
+
 Example: Data of one phenotype
+
 ```{r}
 medium_grey <- c(
   "#4D4D4D"
@@ -66,10 +72,11 @@ ggplot(colors, aes(x = 1, y = Label, fill = Color)) +
   )
 ```
 
-
 ### Colors for multiple equivalent groups
+
 Use the order below to fit the number of groups (e.g., if you have 5 groups, use the first 5 colors)
 Example: Individual replicates
+
 ```{r}
 medium_categorical <- c(
   "#5DA5DA",
@@ -106,6 +113,7 @@ bold_caterogical <- c(
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 14}
 colors <- data.frame(
   Category = rep(c("Medium Categorical", "Light Categorical", "Bold Categorical"), each = 8),
@@ -133,10 +141,13 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ## Colors for semi-ordinal data
+
 For use in comparisons with a control vs increasingly abnormal conditions that should have equal visual weight
 
-### Equally spaced levels for 2 groups 
+### Equally spaced levels for 2 groups
+
 Example: Wild-type vs knockouts
+
 ```{r}
 medium_semi_ordinal_two <- c(
   "#4D4D4D",
@@ -179,9 +190,10 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
   )
 ```
 
-
 ### Equally spaced levels for 3 groups
+
 Example: Control (untreated) vs sham vs treated
+
 ```{r}
 medium_semi_ordinal_three <- c(
   "#4D4D4D",
@@ -203,6 +215,7 @@ bold_semi_ordinal_three <- c(
 ```
 
 #### Demo
+
 ```{r fig.height = 4, fig.width = 5}
 colors <- data.frame(
   Category = rep(c("Medium Semi-Ordinal Three", "Light Semi-Ordinal Three", "Bold Semi-Ordinal Three"), each = 3),
@@ -228,7 +241,9 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 4 groups
+
 Example: Control vs mild hearing loss vs moderate hearing loss vs severe hearing loss
+
 ```{r}
 medium_semi_ordinal_four <- c(
   "#4D4D4D",
@@ -253,6 +268,7 @@ bold_semi_ordinal_four <- c(
 ```
 
 #### Demo
+
 ```{r fig.height = 4, fig.width = 6.5}
 colors <- data.frame(
   Category = rep(c("Medium Semi-Ordinal Four", "Light Semi-Ordinal Four", "Bold Semi-Ordinal Four"), each = 4),
@@ -278,11 +294,13 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ## Colors for ordinal data
+
 For use in comparisons in which higher levels get stronger visual weight. Each gradient is optimized to make maximal use of that colors range of saturation and luminance given the number of levels. Multiple colors can be added following the semi-ordinal scale to show a gradient with the hue based on a second grouping variable.
 
 Example: ABR intensities (most visual weight to high intensity ABRs) compared between groups
 
 ### Equally spaced levels for 3 groups
+
 ```{r}
 three_greys <- 
   c(
@@ -314,6 +332,7 @@ three_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 4.5}
 colors <- data.frame(
   Category = rep(c("Three Greys", "Three Blues", "Three Greens", "Three Reds"), each = 3),
@@ -344,6 +363,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 4 groups
+
 ```{r}
 four_greys <-
   c(
@@ -379,6 +399,7 @@ four_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 5.3}
 colors <- data.frame(
   Category = rep(c("Four Greys", "Four Blues", "Four Greens", "Four Reds"), each = 4),
@@ -409,6 +430,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 
 
 ### Equally spaced levels for 5 groups
+
 ```{r}
 five_greys <-
   c(
@@ -448,6 +470,7 @@ five_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 6.5}
 colors <- data.frame(
   Category = rep(c("Five Greys", "Five Blues", "Five Greens", "Five Reds"), each = 5),
@@ -479,6 +502,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 6 groups
+
 ```{r}
 six_greys <-
   c(
@@ -522,6 +546,7 @@ six_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 7.4}
 colors <- data.frame(
   Category = rep(c("Six Greys", "Six Blues", "Six Greens", "Six Reds"), each = 6),
@@ -552,6 +577,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 7 groups
+
 ```{r}
 seven_greys <-
   c(
@@ -599,6 +625,7 @@ seven_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 8.5}
 colors <- data.frame(
   Category = rep(c("Seven Greys", "Seven Blues", "Seven Greens", "Seven Reds"), each = 7),
@@ -629,6 +656,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 8 groups
+
 ```{r}
 eight_greys <-
   c(
@@ -680,6 +708,7 @@ eight_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 9.8}
 colors <- data.frame(
   Category = rep(c("Eight Greys", "Eight Blues", "Eight Greens", "Eight Reds"), each = 8),
@@ -710,6 +739,7 @@ ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
 ```
 
 ### Equally spaced levels for 9 groups (max)
+
 ```{r}
 nine_greys <-
   c(
@@ -765,6 +795,7 @@ nine_reds <-
 ```
 
 #### Demo
+
 ```{r fig.height = 5, fig.width = 11}
 colors <- data.frame(
   Category = rep(c("Nine Greys", "Nine Blues", "Nine Greens", "Nine Reds"), each = 9),

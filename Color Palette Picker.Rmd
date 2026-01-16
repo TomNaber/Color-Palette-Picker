@@ -9,6 +9,7 @@ output:
     toc_float: true
     highlight: tango
     self_contained: true
+    df_print: paged
     fig_height: 6
     fig_width: 10
     code_folding: hide

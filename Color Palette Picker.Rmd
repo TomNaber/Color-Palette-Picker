@@ -1,0 +1,795 @@
+---
+title: "Color Picker"
+author: "Tom Naber"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output:
+  html_document: 
+    theme: flatly
+    toc: true
+    toc_float: true
+    highlight: tango
+    self_contained: true
+    fig_height: 6
+    fig_width: 10
+    code_folding: hide
+  pdf_document: 
+    toc: true
+editor_options:
+  markdown:
+    wrap: 80 
+---
+# COLOR PICKER
+See this website for more https://colorbrewer2.org/
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 10,
+                      fig.height = 6)
+library(scales)
+library(ggthemes)
+library(ggplot2)
+```
+
+## Colors for categorical data
+Use medium for regular data, light for individual data points next to means (with medium) and bold to highlight something.
+
+### For single value/group
+Example: Data of one phenotype
+```{r}
+medium_grey <- c(
+  "#4D4D4D"
+)
+light_grey <- c(
+  "#8C8C8C"
+)
+
+bold_grey <- c(
+  "#000000"
+)
+```
+
+#### Demo
+```{r fig.height = 3, fig.width = 1.8}
+colors <- data.frame(
+  Color = c("#4D4D4D", "#8C8C8C", "#000000"),
+  Label = c("Medium Grey", "Light Grey", "Bold Grey")
+)
+
+ggplot(colors, aes(x = 1, y = Label, fill = Color)) +
+  geom_tile(color = "white", linewidth = 1, height = 1) +
+    geom_text(aes(label = Color), color = "white", size = 3) + 
+  scale_fill_identity() +
+  labs(title = "Greys") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+
+### Colors for multiple equivalent groups
+Use the order below to fit the number of groups (e.g., if you have 5 groups, use the first 5 colors)
+Example: Individual replicates
+```{r}
+medium_categorical <- c(
+  "#5DA5DA",
+  "#FAA43A",
+  "#60BD68",
+  "#F17CB0",
+  "#B2912F",
+  "#B276B2",
+  "#DECF3F",
+  "#F15854"
+)
+
+light_categorical <- c(
+  "#88BDE6",
+  "#FBB258",
+  "#90CD97",
+  "#F6AAC9",
+  "#BFA554",
+  "#BC99C7",
+  "#EDDD46",
+  "#F07E6E"
+)
+
+bold_caterogical <- c(
+  "#256DAB",
+  "#DF5C24",
+  "#059748",
+  "#E5126F",
+  "#9D722A",
+  "#7B3A96",
+  "#C7B42E",
+  "#CB2027"
+)
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 14}
+colors <- data.frame(
+  Category = rep(c("Medium Categorical", "Light Categorical", "Bold Categorical"), each = 8),
+  Color = c(
+    "#5DA5DA", "#FAA43A", "#60BD68", "#F17CB0",
+    "#B2912F", "#B276B2", "#DECF3F", "#F15854",
+    "#88BDE6", "#FBB258", "#90CD97", "#F6AAC9",
+    "#BFA554", "#BC99C7", "#EDDD46", "#F07E6E",
+    "#256DAB", "#DF5C24", "#059748", "#E5126F",
+    "#9D722A", "#7B3A96", "#C7B42E", "#CB2027"
+  ),
+  Position = rep(1:8, 3))
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Categorical Colors") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Colors for semi-ordinal data
+For use in comparisons with a control vs increasingly abnormal conditions that should have equal visual weight
+
+### Equally spaced levels for 2 groups 
+Example: Wild-type vs knockouts
+```{r}
+medium_semi_ordinal_two <- c(
+  "#4D4D4D",
+  "#F15854"
+)
+
+light_semi_ordinal_two <- c(
+  "#8C8C8C",
+  "#F07E6E"
+)
+
+bold_semi_ordinal_two <- c(
+  "#000000",
+  "#CB2027"
+)
+```
+
+#### Demo
+```{r fig.height = 4, fig.width = 3.8}
+colors <- data.frame(
+  Category = rep(c("Medium Semi-Ordinal Two", "Light Semi-Ordinal Two", "Bold Semi-Ordinal Two"), each = 2),
+  Color = c(
+    "#4D4D4D", "#F15854",
+    "#8C8C8C", "#F07E6E",
+    "#000000", "#CB2027"
+  ),
+  Position = rep(1:2, 3
+))
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Semi-Ordinal Two Colors") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+
+### Equally spaced levels for 3 groups
+Example: Control (untreated) vs sham vs treated
+```{r}
+medium_semi_ordinal_three <- c(
+  "#4D4D4D",
+  "#60BD68",
+  "#F15854"
+)
+
+light_semi_ordinal_three <- c(
+  "#8C8C8C",
+  "#90CD97",
+  "#F07E6E"
+)
+
+bold_semi_ordinal_three <- c(
+  "#000000",
+  "#059748",
+  "#CB2027"
+)
+```
+
+#### Demo
+```{r fig.height = 4, fig.width = 5}
+colors <- data.frame(
+  Category = rep(c("Medium Semi-Ordinal Three", "Light Semi-Ordinal Three", "Bold Semi-Ordinal Three"), each = 3),
+  Color = c(
+    "#4D4D4D", "#60BD68", "#F15854",
+    "#8C8C8C", "#90CD97", "#F07E6E",
+    "#000000", "#059748", "#CB2027"
+  ),
+  Position = rep(1:3, 3)
+)
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Semi-Ordinal Three Colors") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+### Equally spaced levels for 4 groups
+Example: Control vs mild hearing loss vs moderate hearing loss vs severe hearing loss
+```{r}
+medium_semi_ordinal_four <- c(
+  "#4D4D4D",
+  "#5DA5DA",
+  "#60BD68",
+  "#F15854"
+)
+
+light_semi_ordinal_four <- c(
+  "#8C8C8C",
+  "#88BDE6",
+  "#90CD97",
+  "#F07E6E"
+)
+
+bold_semi_ordinal_four <- c(
+  "#000000",
+  "#256DAB",
+  "#059748",
+  "#CB2027"
+)
+```
+
+#### Demo
+```{r fig.height = 4, fig.width = 6.5}
+colors <- data.frame(
+  Category = rep(c("Medium Semi-Ordinal Four", "Light Semi-Ordinal Four", "Bold Semi-Ordinal Four"), each = 4),
+  Color = c(
+    "#4D4D4D", "#5DA5DA", "#60BD68", "#F15854",
+    "#8C8C8C", "#88BDE6", "#90CD97", "#F07E6E",
+    "#000000", "#256DAB", "#059748", "#CB2027"
+  ),
+  Position = rep(1:4, 3)
+)
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Semi-Ordinal Four Colors") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+## Colors for ordinal data
+For use in comparisons in which higher levels get stronger visual weight. Each gradient is optimized to make maximal use of that colors range of saturation and luminance given the number of levels. Multiple colors can be added following the semi-ordinal scale to show a gradient with the hue based on a second grouping variable.
+
+Example: ABR intensities (most visual weight to high intensity ABRs) compared between groups
+
+### Equally spaced levels for 3 groups
+```{r}
+three_greys <- 
+  c(
+    "#f0f0f0",
+    "#bdbdbd",
+    "#636363"
+  )
+
+three_blues <- 
+  c(
+    "#deebf7",
+    "#9ecae1",
+    "#3182bd"
+  )
+
+three_greens <-
+  c(
+    "#e5f5e0",
+    "#a1d99b",
+    "#31a354"
+  )
+
+three_reds <-
+  c(
+    "#fee0d2",
+    "#fc9272",
+    "#de2d26"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 4.5}
+colors <- data.frame(
+  Category = rep(c("Three Greys", "Three Blues", "Three Greens", "Three Reds"), each = 3),
+  Color = c(
+    "#f0f0f0", "#bdbdbd", "#636363",
+    "#deebf7", "#9ecae1", "#3182bd",
+    "#e5f5e0", "#a1d99b", "#31a354",
+    "#fee0d2", "#fc9272", "#de2d26"
+  ),
+  Position = rep(1:3, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Three Reds", "Three Greens", "Three Blues", "Three Greys"))
+
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Three Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+### Equally spaced levels for 4 groups
+```{r}
+four_greys <-
+  c(
+    "#f7f7f7",
+    "#cccccc",
+    "#969696",
+    "#525252"
+  )
+
+four_blues <-
+  c(
+    "#eff3ff",
+    "#bdd7e7",
+    "#6baed6",
+    "#2171b5"
+  )
+
+four_greens <-
+  c(
+    "#edf8e9",
+    "#bae4b3",
+    "#74c476",
+    "#238b45"
+  )
+
+four_reds <-
+  c(
+    "#fee5d9",
+    "#fcae91",
+    "#fb6a4a",
+    "#cb181d"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 5.3}
+colors <- data.frame(
+  Category = rep(c("Four Greys", "Four Blues", "Four Greens", "Four Reds"), each = 4),
+  Color = c(
+    "#f7f7f7", "#cccccc", "#969696", "#525252",
+    "#eff3ff", "#bdd7e7", "#6baed6", "#2171b5",
+    "#edf8e9", "#bae4b3", "#74c476", "#238b45",
+    "#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"
+  ),
+  Position = rep(1:4, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Four Reds", "Four Greens", "Four Blues", "Four Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Four Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
+
+
+### Equally spaced levels for 5 groups
+```{r}
+five_greys <-
+  c(
+    "#f7f7f7",
+    "#cccccc",
+    "#969696",
+    "#636363",
+    "#252525"
+  )
+
+five_blues <-
+  c(
+    "#eff3ff",
+    "#bdd7e7",
+    "#6baed6",
+    "#3182bd",
+    "#08519c"
+  )
+
+five_greens <-
+  c(
+    "#edf8e9",
+    "#bae4b3",
+    "#74c476",
+    "#31a354",
+    "#006d2c"
+  )
+
+five_reds <-
+  c(
+    "#fee5d9",
+    "#fcae91",
+    "#fb6a4a",
+    "#de2d26",
+    "#a50f15"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 6.5}
+colors <- data.frame(
+  Category = rep(c("Five Greys", "Five Blues", "Five Greens", "Five Reds"), each = 5),
+  Color = c(
+    "#f7f7f7", "#cccccc", "#969696", "#636363", "#252525",
+    "#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c",
+    "#edf8e9", "#bae4b3", "#74c476", "#31a354", "#006d2c",
+    "#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"
+  ),
+  Position = rep(1:5, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Five Reds", "Five Greens", "Five Blues", "Five Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Five Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+
+```
+
+### Equally spaced levels for 6 groups
+```{r}
+six_greys <-
+  c(
+    "#f7f7f7",
+    "#d9d9d9",
+    "#bdbdbd",
+    "#969696",
+    "#636363",
+    "#252525"
+  )
+
+six_blues <-
+  c(
+    "#eff3ff",
+    "#eff3ff",
+    "#9ecae1",
+    "#6baed6",
+    "#3182bd",
+    "#08519c"
+  )
+
+six_greens <-
+  c(
+    "#edf8e9",
+    "#c7e9c0",
+    "#a1d99b",
+    "#74c476",
+    "#31a354",
+    "#006d2c"
+  )
+
+six_reds <-
+  c(
+    "#fee5d9",
+    "#fcbba1",
+    "#fc9272",
+    "#fb6a4a",
+    "#de2d26",
+    "#a50f15"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 7.4}
+colors <- data.frame(
+  Category = rep(c("Six Greys", "Six Blues", "Six Greens", "Six Reds"), each = 6),
+  Color = c(
+    "#f7f7f7", "#d9d9d9", "#bdbdbd", "#969696", "#636363", "#252525",
+    "#eff3ff", "#eff3ff", "#9ecae1", "#6baed6", "#3182bd", "#08519c",
+    "#edf8e9", "#c7e9c0", "#a1d99b", "#74c476", "#31a354", "#006d2c",
+    "#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"
+  ),
+  Position = rep(1:6, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Six Reds", "Six Greens", "Six Blues", "Six Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Six Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+### Equally spaced levels for 7 groups
+```{r}
+seven_greys <-
+  c(
+    "#f7f7f7",
+    "#d9d9d9",
+    "#bdbdbd",
+    "#969696",
+    "#737373",
+    "#525252",
+    "#252525"
+  )
+
+seven_blues <-
+  c(
+    "#eff3ff",
+    "#c6dbef",
+    "#9ecae1",
+    "#6baed6",
+    "#4292c6",
+    "#2171b5",
+    "#084594"
+  )
+
+seven_greens <-
+  c(
+    "#edf8e9",
+    "#c7e9c0",
+    "#a1d99b",
+    "#74c476",
+    "#41ab5d",
+    "#238b45",
+    "#005a32"
+  )
+
+seven_reds <-
+  c(
+    "#fee5d9",
+    "#fcbba1",
+    "#fc9272",
+    "#fb6a4a",
+    "#ef3b2c",
+    "#cb181d",
+    "#99000d"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 8.5}
+colors <- data.frame(
+  Category = rep(c("Seven Greys", "Seven Blues", "Seven Greens", "Seven Reds"), each = 7),
+  Color = c(
+    "#f7f7f7", "#d9d9d9", "#bdbdbd", "#969696", "#737373", "#525252", "#252525",
+    "#eff3ff", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#084594",
+    "#edf8e9", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#005a32",
+    "#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#99000d"
+  ),
+  Position = rep(1:7, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Seven Reds", "Seven Greens", "Seven Blues", "Seven Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Seven Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+### Equally spaced levels for 8 groups
+```{r}
+eight_greys <-
+  c(
+    "#ffffff",
+    "#f0f0f0",
+    "#d9d9d9",
+    "#bdbdbd",
+    "#969696",
+    "#737373",
+    "#525252",
+    "#252525"
+  )
+
+eight_blues <-
+  c(
+    "#f7fbff",
+    "#deebf7",
+    "#c6dbef",
+    "#9ecae1",
+    "#6baed6",
+    "#4292c6",
+    "#2171b5",
+    "#084594"
+  )
+
+eight_greens <-
+  c(
+    "#f7fcf5",
+    "#e5f5e0",
+    "#c7e9c0",
+    "#a1d99b",
+    "#74c476",
+    "#41ab5d",
+    "#238b45",
+    "#005a32"
+  )
+
+eight_reds <-
+  c(
+    "#fff5f0",
+    "#fee0d2",
+    "#fcbba1",
+    "#fc9272",
+    "#fb6a4a",
+    "#ef3b2c",
+    "#cb181d",
+    "#99000d"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 9.8}
+colors <- data.frame(
+  Category = rep(c("Eight Greys", "Eight Blues", "Eight Greens", "Eight Reds"), each = 8),
+  Color = c(
+    "#ffffff", "#f0f0f0", "#d9d9d9", "#bdbdbd", "#969696", "#737373", "#525252", "#252525",
+    "#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#084594",
+    "#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#005a32",
+    "#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#99000d"
+  ),
+  Position = rep(1:8, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Eight Reds", "Eight Greens", "Eight Blues", "Eight Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Eight Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+### Equally spaced levels for 9 groups (max)
+```{r}
+nine_greys <-
+  c(
+    "#ffffff",
+    "#f0f0f0",
+    "#d9d9d9",
+    "#bdbdbd",
+    "#969696",
+    "#737373",
+    "#525252",
+    "#252525",
+    "#000000"
+  )
+
+nine_blues <-
+  c(
+    "#f7fbff",
+    "#deebf7",
+    "#c6dbef",
+    "#9ecae1",
+    "#6baed6",
+    "#4292c6",
+    "#2171b5",
+    "#08519c",
+    "#08306b"
+  )
+
+nine_greens <-
+  c(
+    "#f7fcf5",
+    "#e5f5e0",
+    "#c7e9c0",
+    "#a1d99b",
+    "#74c476",
+    "#41ab5d",
+    "#238b45",
+    "#006d2c",
+    "#00441b"
+  )
+
+nine_reds <-
+  c(
+    "#fff5f0",
+    "#fee0d2",
+    "#fcbba1",
+    "#fc9272",
+    "#fb6a4a",
+    "#ef3b2c",
+    "#cb181d",
+    "#a50f15",
+    "#67000d"
+  )
+```
+
+#### Demo
+```{r fig.height = 5, fig.width = 11}
+colors <- data.frame(
+  Category = rep(c("Nine Greys", "Nine Blues", "Nine Greens", "Nine Reds"), each = 9),
+  Color = c(
+    "#ffffff", "#f0f0f0", "#d9d9d9", "#bdbdbd", "#969696", "#737373", "#525252", "#252525", "#000000",
+    "#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", "#4292c6", "#2171b5", "#08519c", "#08306b",
+    "#f7fcf5", "#e5f5e0", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#00441b",
+    "#fff5f0", "#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"
+  ),
+  Position = rep(1:9, 4)
+)
+
+colors$Category <- factor(colors$Category, levels = c("Nine Reds", "Nine Greens", "Nine Blues", "Nine Greys"))
+colors <- colors[order(colors$Category), ]
+
+ggplot(colors, aes(x = Position, y = Category, fill = Color)) +
+  geom_tile(color = "white", linewidth = 0.5, height = 0.8, width = 0.8) +
+  geom_text(aes(label = Color), color = "white", size = 3) +
+  scale_fill_identity() +
+  labs(title = "Nine Colors: Greys, Blues, Greens, Reds") +
+  theme_minimal() +
+  theme(
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+    panel.grid = element_blank()
+  )
+```
